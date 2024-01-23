@@ -6,5 +6,8 @@ import com.ibm.yana.model.Customer;
 
 public interface CustomerRepository {
 	Customer createCustomer(Customer customer) throws Exception;
-	List<Customer> getAllCustomer() throws Exception;
+	List<Customer> getAllCustomers() throws Exception;
+	Customer updateCustomer(String customerId);
+	void deleteCustomer(String customerId);
+	
 }

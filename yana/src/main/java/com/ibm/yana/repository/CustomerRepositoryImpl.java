@@ -1,18 +1,23 @@
 package com.ibm.yana.repository;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.UUID;
+
 import javax.persistence.TypedQuery;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+
 import com.ibm.yana.factory.MySessionFactory;
 import com.ibm.yana.model.Customer;
+
 public class CustomerRepositoryImpl implements CustomerRepository{
-	BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(System.in));
+
+	BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 	
 	private SessionFactory sessionFactory;
-	private List<Customer> customerList;
 	
 	{
 		try {
@@ -22,6 +27,8 @@ public class CustomerRepositoryImpl implements CustomerRepository{
 			e.printStackTrace();
 		}
 	}
+	
+	
 	@Override
 	public Customer createCustomer(Customer customer) {
 		// TODO Auto-generated method stub
@@ -31,8 +38,8 @@ public class CustomerRepositoryImpl implements CustomerRepository{
 			customer.setCustomerId(UUID.randomUUID().toString());
 			
 			 System.out.print("Enter customer Name: ");
-			  customer.setCustomerName(bufferedReader.readLine());
-			 
+			  customer.setCustomerName(br.readLine());
+			  
 			
 //			  System.out.println("enter customer order id: ");
 //			  customer.s(bufferedReader.readLine());
@@ -48,15 +55,76 @@ public class CustomerRepositoryImpl implements CustomerRepository{
 //		session.persist(customer);
 //		session.getTransaction().commit();
 		return customer;
+
 	}
 
+
 	@Override
-	public List<Customer> getAllCustomer() {
+	public List<Customer> getAllCustomers() {
 		// TODO Auto-generated method stub
+		Session session= sessionFactory.openSession();
+		TypedQuery<Customer> query= session.createQuery("FROM Customer c",Customer.class);
+		return query.getResultList();
+	}
+
+
+	@Override
+	public Customer updateCustomer(String customerId) {
+		Customer tempcus=null;
+		try {
+			Session session= sessionFactory.openSession();
+			int choice;
+			System.out.println("1.Update name");
+			choice= Integer.parseInt(br.readLine());
+			
+			switch(choice)
+			{
+			
+			case 1: 
+				session.beginTransaction();
+				System.out.println("Enter name");
+				String name= br.readLine();
+				Customer cus=session.get(Customer.class, customerId);
+				if(cus==null)
+				{
+					System.out.println("Customer not found");
+					return tempcus;
+				}
+				cus.setCustomerName(name);
+				session.update(cus);
+				session.getTransaction().commit();
+				return tempcus=cus;
+				//break;
+				
+			default:System.out.println("wrong choice");
+			break;
+				
+			}
+			
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return tempcus;
+	}
+
+
+	@Override
+	public void deleteCustomer(String customerId) {
+		// TODO Auto-generated method stub
+		
 		Session session = sessionFactory.openSession();
-		TypedQuery<Customer> typedQuery = session.createQuery("from Customer c", Customer.class);
-		customerList = typedQuery.getResultList();
-		return customerList;
+		session.getTransaction().begin();		
+		Customer cus= session.get(Customer.class, customerId);
+		
+		session.delete(cus);
+		session.getTransaction().commit();
+		
+		
 	}
 
 }

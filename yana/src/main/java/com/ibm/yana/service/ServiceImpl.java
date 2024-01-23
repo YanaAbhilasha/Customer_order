@@ -7,21 +7,33 @@ import com.ibm.yana.repository.RepositoryImpl;
 
 public class ServiceImpl implements Service {
 	
-	private Repository orderRepository;
-	
+	private static Repository orderRepo;
 	{
-		orderRepository=new RepositoryImpl();
-	}
-
-	public Order createOrder(Order order) throws Exception {
-		// TODO Auto-generated method stub
-		return orderRepository.createOrder(order);
+		orderRepo= new RepositoryImpl();
 	}
 
 	@Override
-	public List<Order> getAllOrder() throws Exception {
+	public Order createOrder(Order order) throws Exception {
 		// TODO Auto-generated method stub
-		return orderRepository.getAllOrder();
+		return orderRepo.createOrder(order);
+	}
+
+	@Override
+	public List<Order> getAllOrders() throws Exception {
+		// TODO Auto-generated method stub
+		return orderRepo.getAllOrders();
+	}
+
+	@Override
+	public Order updateOrder(String orderid) {
+		// TODO Auto-generated method stub
+		return orderRepo.updateOrder(orderid);
+	}
+
+	@Override
+	public void deleteOrder(String orderId) {
+		// TODO Auto-generated method stub
+		  orderRepo.deleteOrder(orderId);
 	}
 
 }
