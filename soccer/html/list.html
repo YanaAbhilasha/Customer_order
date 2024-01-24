@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List</title>
+    <style>
+        table,th,td{
+            border: 1px solid black;
+        }
+        center{
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="center">
+    <form action="">
+        <label for="name">Name:</label>
+        <input type="text" id="name" placeholder="Enter name">
+        <br><br>
+        <label for="league">League</label>
+        <select name="League" id="league">
+            <option value="EPL">EPL</option>
+            <option value="laliga">LaLiga</option>
+            <option value="bundisliga">Bundisliga</option>
+        </select><br><br>
+        <label for="year">Year</label>
+        <input type="number" id="year" min="2024" max="2024"><br><br>
+        <input type="button" onclick="prompt('Succesfully Submited')" value="Submit">
+    </form>
+</div>
+</body>
+</html>
